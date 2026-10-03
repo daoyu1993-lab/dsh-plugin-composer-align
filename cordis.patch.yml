@@ -1,0 +1,10 @@
+# Mount this package as a profile bundle layer.
+#
+# `dsh plugin add <path>` appends this package to `dsh.profile.bundles` when it
+# sees `dsh.bundle.patch` in package.json, and the profile boot then merges the
+# `insert` below. The same `insert` can be written straight into the profile's
+# own cordis.patch.yml, which dsh-hmr watches — that is how this plugin is
+# mounted live, without restarting the app (see README.md).
+- insert:
+    - id: composer-align
+      name: 'dsh-plugin-composer-align'

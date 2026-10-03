@@ -1,0 +1,29 @@
+{
+  "name": "dsh-plugin-composer-align",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Pin the New Session composer to the exact place the conversation composer occupies, so the input box stops jumping after the first message.",
+  "type": "module",
+  "main": "./index.js",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": []
+    }
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "license": "MIT"
+}
