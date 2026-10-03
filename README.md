@@ -5,7 +5,8 @@
 
 ![修复前 / 修复后](preview/composer-align.png)
 
-（预览页可直接打开：[`preview/composer-align.html`](preview/composer-align.html)；
+（预览页 `preview/composer-align.html` 由 `tools/build-composer-align-preview.mjs` 在本地生成 ——
+**不随仓库分发**，页面内联了 DSH 官方样式表，生成方式见「自检」一节的第 0 步；
 断言在 [`tools/verify-composer-align.mjs`](tools/verify-composer-align.mjs)。）
 
 ## 一句话
@@ -119,11 +120,15 @@ profile 补丁有备份：`cordis.patch.yml.bak-*`、`package.json.bak-*`。
 cd <本仓库根目录>
 NODE="$(command -v node || echo '/Applications/DeepSeek Harness.app/Contents/Resources/runtime/primary-runtime/dependencies/node/bin/node')"
 
-# 0) 前置：断言里的官方产物 CSS 逐字取自 @deepseek-ai/dsh-client-ui-conversation 与 -chat，
-#    先从本机 DSH 解包到 ./core（该目录已 .gitignore，不会随仓库分发）
+# 0) 前置：本仓库只分发**截图**，不含官方产物片段（core/、preview/*.css、preview/*.html
+#    都在 .gitignore 里）。断言用的夹具从本机 DSH 现场抽出来：
 "$NODE" tools/asar-extract.cjs ./core \
   /dsh/node_modules/@deepseek-ai/dsh-client-ui-conversation/ \
-  /dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/
+  /dsh/node_modules/@deepseek-ai/dsh-client-ui-chat/ \
+  /dsh/node_modules/@deepseek-ai/dsh-client-ui-theme/
+T=core/dsh/node_modules/@deepseek-ai
+"$NODE" tools/extract-css.mjs $T/dsh-client-ui-theme/lib/client.js preview/theme.css
+"$NODE" tools/extract-css.mjs $T/dsh-client-ui-theme/lib/client.js preview/palette.css --only design_platform_css_default
 
 # 1) 真样式表 + 真 DOM 复刻的逐像素断言（19 项）
 "$NODE" tools/verify-composer-align.mjs

@@ -1,5 +1,8 @@
 node_modules/
 .DS_Store
 *.log
-# 从本机 DSH 解包出来的官方产物（专有代码，不随仓库分发）
+
+# 官方产物片段：从本机 DSH 解包 / 抽取得到，不随仓库分发（生成方式见 README「自检」）
 core/
+preview/*.css
+preview/*.html
