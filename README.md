@@ -99,6 +99,26 @@ dsh plugin --profile desktop add "github:daoyu1993-lab/dsh-plugin-composer-align
 `$DSH_HOME/profiles/desktop/cordis.patch.yml` 末尾的 insert 行即装载点，`dsh-hmr` 会实时拾取
 补丁文件的改动（不需要重启）。两种别同时用。
 
+### 升级注意：DSH 0.2.1 会重写 profile 清单
+
+实测 DSH 0.2.1 升级后的首次启动会重写 profile 的 `package.json`（`dsh.profile.bundles` 列表），
+这次重写把本插件从 `bundles` 里删掉了：插件自身没有任何 dsh 版本要求、和新版本的官方样式也没有
+失配（`tools/verify-composer-align.mjs` 用 0.2.1 的产物重跑 19 项断言全过），但 `bundles` 里没有它，
+启动时就不会挂载 —— 症状是新会话输入框回到垂直居中，发第一条消息时再跳一次。
+
+遇到这个症状，把装载点换到 profile 自己的补丁层（用户层，manifest 被重写也碰不到它），
+并把自己从 `bundles` 里去掉：
+
+```yaml
+# $DSH_HOME/profiles/desktop/cordis.patch.yml 末尾
+- insert:
+    - id: composer-align
+      name: 'dsh-plugin-composer-align'
+```
+
+改完 `dsh-hmr` 会实时拾取，不需要重启 App。仍然**二选一**：已经写进 `bundles` 的就不要再加这段
+insert，否则会挂两份。
+
 ## 生效时机
 
 - **改插件源码（`client.js`）**：client 插件有热更新接收端，保存后**刷新页面即可**；本次实测
