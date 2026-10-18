@@ -133,7 +133,7 @@ export const CHAT_CSS = (() => {
     } catch {
       continue;
     }
-    if (css.includes('OpZ85W_root')) return css;
+    if (css.includes('OpZ85W_anchor')) return css;
   }
   throw new Error('the chat bundle no longer ships the StatsPills stylesheet');
 })();
@@ -189,7 +189,7 @@ const dock = ({ hero, wrapped, dock: kind }) => {
   /* The hero never calls the slot at all, so the div is truly `:empty`. */
   if (hero) return '<div class="yhfFVG_dock"></div>';
   const status = kind === 'stats'
-    ? `<div class="OpZ85W_root" data-composer-stats>
+    ? `<div class="OpZ85W_anchor" data-composer-stats>
           <span class="OpZ85W_pill">${GLYPH(14, GAUGE)}223 tok/s</span>
           <span class="OpZ85W_pill">${GLYPH(14, DATABASE)}缓存命中 99.7%</span>
         </div>`
